@@ -2,8 +2,8 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 13.3
--- Dumped by pg_dump version 13.3
+-- Dumped from database version 13.4
+-- Dumped by pg_dump version 13.4
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,68 +21,186 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: tasks; Type: TABLE; Schema: public; Owner: -
+-- Name: sightings; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.tasks (
-    id integer NOT NULL,
-    name text
+CREATE TABLE public.sightings (
+    sighting_id integer NOT NULL,
+    time_sighted date,
+    specimen_id integer,
+    healthy boolean,
+    email text,
+    location text
 );
 
 
 --
--- Name: tasks_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: sightings_sighting_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.tasks_id_seq
-    AS integer
+ALTER TABLE public.sightings ALTER COLUMN sighting_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.sightings_sighting_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
-    CACHE 1;
+    CACHE 1
+);
 
 
 --
--- Name: tasks_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: species; Type: TABLE; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.tasks_id_seq OWNED BY public.tasks.id;
+CREATE TABLE public.species (
+    species_id integer NOT NULL,
+    name text,
+    scientific_name text,
+    code text,
+    added date
+);
 
 
 --
--- Name: tasks id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: species_species_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.tasks ALTER COLUMN id SET DEFAULT nextval('public.tasks_id_seq'::regclass);
+ALTER TABLE public.species ALTER COLUMN species_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.species_species_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
 
 
 --
--- Data for Name: tasks; Type: TABLE DATA; Schema: public; Owner: -
+-- Name: specimens; Type: TABLE; Schema: public; Owner: -
 --
 
-COPY public.tasks (id, name) FROM stdin;
-1	🙏 Be nice when you add test entries
-2	⏲ Added entries will be reset every Sunday
-3	End white supremacy
-4	Advocate for living wage
-5	Provide universal health care
+CREATE TABLE public.specimens (
+    specimen_id integer NOT NULL,
+    name text,
+    species_id integer,
+    added date
+);
+
+
+--
+-- Name: specimens_specimen_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+ALTER TABLE public.specimens ALTER COLUMN specimen_id ADD GENERATED ALWAYS AS IDENTITY (
+    SEQUENCE NAME public.specimens_specimen_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1
+);
+
+
+--
+-- Data for Name: sightings; Type: TABLE DATA; Schema: public; Owner: -
+--
+
+COPY public.sightings (sighting_id, time_sighted, specimen_id, healthy, email, location) FROM stdin;
+1	2021-08-09	1	t	tabitha@example.com	Giacomini Wetlands
+2	2021-08-10	1	t	romneya@example.com	Five Brooks Pond
+3	2021-08-10	3	t	romneya@example.com	Elephant Seal Overlook
+4	2021-08-03	2	f	anatoly@example.com	Olema Marsh
+5	2021-08-03	6	t	anatoly@example.com	Olema Marsh
+6	2021-08-27	5	t	anatoly@example.com	Abbotts Lagoon
+7	2021-08-27	4	t	anatoly@example.com	Abbotts Lagoon
 \.
 
 
 --
--- Name: tasks_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+-- Data for Name: species; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.tasks_id_seq', 5, true);
+COPY public.species (species_id, name, scientific_name, code, added) FROM stdin;
+1	Tidewater Goby	Eucyclogobius newberry	E	2021-09-14
+2	Threespine Stickleback	Gasterosteus aculeatus williamsoni	E	2021-09-14
+3	Coho salmon	Oncorhynchus kisutch	T	2021-09-14
+4	Chinook salmon	Oncorhynchus tshawytscha	T	2021-09-14
+\.
 
 
 --
--- Name: tasks tasks_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Data for Name: specimens; Type: TABLE DATA; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.tasks
-    ADD CONSTRAINT tasks_pkey PRIMARY KEY (id);
+COPY public.specimens (specimen_id, name, species_id, added) FROM stdin;
+1	Toby	1	2021-09-14
+2	Moby	1	2021-09-14
+3	Sal	3	2021-09-14
+4	Rush	3	2021-09-14
+5	Nook	4	2021-09-14
+6	William	2	2021-09-14
+\.
+
+
+--
+-- Name: sightings_sighting_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.sightings_sighting_id_seq', 7, true);
+
+
+--
+-- Name: species_species_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.species_species_id_seq', 4, true);
+
+
+--
+-- Name: specimens_specimen_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
+--
+
+SELECT pg_catalog.setval('public.specimens_specimen_id_seq', 6, true);
+
+
+--
+-- Name: sightings sightings_sighting_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sightings
+    ADD CONSTRAINT sightings_sighting_id_key UNIQUE (sighting_id);
+
+
+--
+-- Name: species species_species_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.species
+    ADD CONSTRAINT species_species_id_key UNIQUE (species_id);
+
+
+--
+-- Name: specimens specimens_specimen_id_key; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.specimens
+    ADD CONSTRAINT specimens_specimen_id_key UNIQUE (specimen_id);
+
+
+--
+-- Name: sightings sightings_specimen_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.sightings
+    ADD CONSTRAINT sightings_specimen_id_fkey FOREIGN KEY (specimen_id) REFERENCES public.specimens(specimen_id);
+
+
+--
+-- Name: specimens specimens_species_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.specimens
+    ADD CONSTRAINT specimens_species_id_fkey FOREIGN KEY (species_id) REFERENCES public.species(species_id);
 
 
 --
