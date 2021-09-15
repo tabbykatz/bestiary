@@ -6,6 +6,10 @@ const Species = () => {
   const [species, setSpecies] = React.useState([]);
 
   const getSpecies = () => apiClient.getSpecies().then(setSpecies);
+  const deleteSpecies = (id) => {
+    console.log(id);
+    apiClient.deleteSpecies(id).then(getSpecies);
+  };
   React.useEffect(() => {
     getSpecies();
   }, []);
@@ -54,6 +58,7 @@ const Species = () => {
         {species.map(({ species_id, name, scientific_name }) => (
           <li key={species_id}>
             {name}: {scientific_name}{" "}
+            <button onClick={() => deleteSpecies(species_id)}>Delete</button>
           </li>
         ))}
       </ul>
