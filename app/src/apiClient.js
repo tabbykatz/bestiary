@@ -23,7 +23,7 @@ export const getSightings = () => _get("/api/sightings");
 
 export const getSightingById = (id) => _get(`/api/sightings/${id}`);
 
-export const addSighting = (sighting) => _post("/api/signtings", sighting);
+export const addSighting = (sighting) => _post("/api/sightings", sighting);
 
 export const deleteSighting = (sightingId) =>
   _delete(`/api/sightings/${sightingId}`);

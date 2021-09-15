@@ -12,13 +12,11 @@ export const getSpeciesById = (id) => {
   return db.one(sql, { id });
 };
 // add a new species
-export const addSpecies = async ({ name, sci_name, code, added }) =>
-  (
-    await db.any(
-      "INSERT INTO species(name, scientific_name, code, added) VALUES($1) RETURNING species_id, name",
-      [name, sci_name, code, added],
-    )
-  )[0];
+export const addSpecies = async ({ name, scientific_name, code, added }) =>
+  await db.none(
+    "INSERT INTO species(name, scientific_name, code, added) VALUES($1, $2, $3, $4)",
+    [name, scientific_name, code, added],
+  );
 // delete species
 export const deleteSpecies = (speciesId) =>
   db.none("DELETE FROM species WHERE species_id = ${speciesId}", { speciesId });
