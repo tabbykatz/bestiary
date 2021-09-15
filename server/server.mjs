@@ -1,26 +1,16 @@
 import express from "express";
 import mime from "mime-types";
 
-import * as db from "./db.mjs";
+import speciesRouter from "./speciesRouter.mjs";
+import specimensRouter from "./specimensRouter.mjs";
+import sightingsRouter from "./sightingsRouter.mjs";
 
 const app = express();
 const port = process.env.PORT || 4000;
 
-const tasks = express.Router();
-
-tasks.get("/", async (request, response) => {
-  const tasks = await db.getTasks();
-  response.json(tasks);
-});
-
-tasks.use(express.json());
-tasks.post("/", async (request, response) => {
-  const { name } = request.body;
-  const task = await db.addTask(name);
-  response.status(201).json(task);
-});
-
-app.use("/api/tasks", tasks);
+app.use("/api/species", speciesRouter);
+app.use("/api/specimens", specimensRouter);
+app.use("/api/sightings", sightingsRouter);
 
 app.get("/api/ping", (request, response) =>
   response.json({ response: "pong" }),
