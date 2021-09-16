@@ -26,7 +26,7 @@ SET default_table_access_method = heap;
 
 CREATE TABLE public.sightings (
     sighting_id integer NOT NULL,
-    time_sighted timestamp,
+    time_sighted text,
     specimen_id integer,
     healthy boolean,
     email text,
@@ -57,7 +57,7 @@ CREATE TABLE public.species (
     name text,
     scientific_name text,
     code text,
-    added timestamp
+    added text
 );
 
 
@@ -83,7 +83,7 @@ CREATE TABLE public.specimens (
     specimen_id integer NOT NULL,
     name text,
     species_id integer,
-    added timestamp
+    added text
 );
 
 

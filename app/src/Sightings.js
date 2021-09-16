@@ -21,7 +21,7 @@ const Sightings = () => {
   const AddSightingForm = ({ addSighting }) => {
     const onSubmit = (event) => {
       const form = event.currentTarget;
-      const added = new Date().toISOString();
+      const time_sighted = new Date().toISOString().slice(0, 10);
       const {
         specimen_id: { value: specimen_id },
         healthy: { value: healthy },
@@ -30,8 +30,8 @@ const Sightings = () => {
       } = form.elements;
 
       event.preventDefault();
-      console.log(added, specimen_id, healthy, email, location);
-      addSighting({ added, specimen_id, healthy, email, location });
+      console.log(time_sighted, specimen_id, healthy, email, location);
+      addSighting({ time_sighted, specimen_id, healthy, email, location });
       form.reset();
     };
 
