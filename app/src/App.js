@@ -10,17 +10,17 @@ const App = () => {
   return (
     <main>
       <nav>
-        <Link to="/">Home</Link> | <Link to="dashboard">Dashboard</Link>
+        <Link to="/">Admin</Link> | <Link to="Portal">Portal</Link>
       </nav>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/" element={<Admin />} />
+        <Route path="/portal" element={<Portal />} />
       </Routes>
     </main>
   );
 };
 
-const Home = () => {
+const Admin = () => {
   return (
     <>
       <Species />
@@ -30,9 +30,9 @@ const Home = () => {
   );
 };
 
-const Dashboard = () => (
+const Portal = () => (
   <>
-    <h1>Dashboard</h1>
+    <h1>Portal</h1>
   </>
 );
 
