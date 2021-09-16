@@ -6,10 +6,10 @@ const db = initDb();
 //get all species
 export const getSpecies = async () => await db.any("SELECT * FROM species");
 // get species by ID
-export const getSpeciesById = (id) => {
-  const sql = "SELECT * from species WHERE species_id = ${id}";
-  return db.one(sql, { id });
-};
+// export const getSpeciesById = (id) => {
+//   const sql = "SELECT * from species WHERE species_id = ${id}";
+//   return db.one(sql, { id });
+//};
 // add a new species
 export const addSpecies = async ({ name, scientific_name, code, added }) =>
   await db.none(
@@ -24,11 +24,11 @@ export const deleteSpecies = (speciesId) =>
 //get all specimens
 export const getSpecimens = async () => await db.any("SELECT * FROM specimens");
 // get specimen by ID
-export const getSpecimenById = (id) => {
-  const sql = `SELECT * from specimens WHERE specimen_id = $<id> 
-  `;
-  return db.one(sql, { id });
-};
+// export const getSpecimenById = (id) => {
+//   const sql = `SELECT * from specimens WHERE specimen_id = $<id>
+//   `;
+//   return db.one(sql, { id });
+// };
 // add a new specimen
 export const addSpecimen = async ({ name, species_id, added }) =>
   (
@@ -46,25 +46,23 @@ export const addSpecimen = async ({ name, species_id, added }) =>
 //get all sightings
 export const getSightings = async () => await db.any("SELECT * FROM sightings");
 // get sighting by ID
-export const getSightingById = (id) => {
-  const sql = `SELECT * from sightings WHERE sighting_id = $<id> 
-  `;
-  return db.one(sql, { id });
-};
+// export const getSightingById = (id) => {
+//   const sql = `SELECT * from sightings WHERE sighting_id = $<id>
+//   `;
+//   return db.one(sql, { id });
+// };
 // add a new sighting
 export const addSighting = async ({
-  date,
+  time_sighted,
   specimen_id,
   healthy,
   email,
   location,
 }) =>
-  (
-    await db.any(
-      "INSERT INTO sightings(date, specimen_id, healthy, email, location) VALUES($1) RETURNING sighting_id",
-      [date, specimen_id, healthy, email, location],
-    )
-  )[0];
+  await db.any(
+    "INSERT INTO sightings(time_sighted, specimen_id, healthy, email, location) VALUES($1, $2, $3, $4, $5)",
+    [time_sighted, specimen_id, healthy, email, location],
+  );
 // delete sighting
 export const deleteSighting = (sightingId) =>
   db.none("DELETE FROM sightings WHERE sighting_id = ${sightingId}", {
