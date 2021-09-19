@@ -38,15 +38,23 @@ const Admin = () => {
   return (
     <>
       <Species species={species} getSpecies={getSpecies} />
-      <Specimens specimens={specimens} getSpecimens={getSpecimens} />
-      <Sightings sightings={sightings} getSightings={getSightings} />
+      <Specimens
+        specimens={specimens}
+        getSpecimens={getSpecimens}
+        speciesInfo={species}
+      />
+      <Sightings
+        sightings={sightings}
+        getSightings={getSightings}
+        specimens={specimens}
+      />
     </>
   );
 };
 
 const Home = () => (
   <>
-    <h1>Stuff</h1>
+    <h1>Meet our Specimens</h1>
     <Focus />
   </>
 );

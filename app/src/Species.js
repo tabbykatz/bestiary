@@ -61,10 +61,6 @@ const Species = ({ species, getSpecies }) => {
             <td>
               <em>{code}</em>
             </td>
-
-            <td>
-              <button onClick={() => deleteSpecies(species_id)}>Delete</button>
-            </td>
           </tr>
         ))}
       </table>

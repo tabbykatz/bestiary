@@ -2,12 +2,11 @@ import * as React from "react";
 
 import * as apiClient from "./apiClient";
 
-const Sightings = ({ sightings, getSightings }) => {
+const Sightings = ({ sightings, getSightings, specimens }) => {
   const addSighting = (sighting) =>
     apiClient.addSighting(sighting).then(getSightings);
 
   const deleteSighting = (id) => {
-    console.log(id);
     apiClient.deleteSighting(id).then(getSightings);
   };
 
@@ -35,15 +34,24 @@ const Sightings = ({ sightings, getSightings }) => {
     return (
       <form {...{ onSubmit }}>
         <label>
-          Specimen ID
-          <input name="specimen_id" required />
+          Specimen
+          <select name="specimen_id" required>
+            {specimens.map((specimen) => (
+              <option key={specimen.specimen_id} value={specimen.specimen_id}>
+                {specimen.name}
+              </option>
+            ))}
+          </select>
         </label>
         <label>
           Healthy?
-          <input name="healthy" required />
+          <select name="healthy" required>
+            <option value="true">true</option>
+            <option value="false">false</option>
+          </select>
         </label>
         <label>
-          Email
+          Sighter's Email
           <input name="email" type="email" required />
         </label>
         <label>
@@ -57,7 +65,7 @@ const Sightings = ({ sightings, getSightings }) => {
 
   return (
     <>
-      <ul>
+      <table>
         {sightings.map(
           ({
             sighting_id,
@@ -67,15 +75,18 @@ const Sightings = ({ sightings, getSightings }) => {
             email,
             location,
           }) => (
-            <li key={sighting_id}>
-              {time_sighted}: {location}
-              <button onClick={() => deleteSighting(sighting_id)}>
-                Delete
-              </button>
-            </li>
+            <tr key={sighting_id}>
+              <td>{specimen_id}</td>
+              <td>{location}</td>
+              <td>{healthy ? "healthy" : "unhealthy"}</td>
+              <td>{time_sighted}</td>
+              <td>
+                <button onClick={deleteSighting}>Delete</button>
+              </td>
+            </tr>
           ),
         )}
-      </ul>
+      </table>
       <AddSightingForm addSighting={addSighting} />
     </>
   );

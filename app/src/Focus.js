@@ -3,18 +3,13 @@ import * as React from "react";
 import * as apiClient from "./apiClient";
 
 const Focus = () => {
-  const [state, setState] = React.useState([]);
+  const [specimenInfo, setSpecimenInfo] = React.useState([]);
 
-  const getState = () => apiClient.getJoined().then(setState);
+  const getSpecimenInfo = () => apiClient.getJoined().then(setSpecimenInfo);
   React.useEffect(() => {
-    getState();
+    getSpecimenInfo();
   }, []);
 
-  // i feel dirty
-  let names = [];
-  state.map((creature) => names.push(creature.nickname));
-  names = [...new Set(names)];
-  console.log(` joined shit: ${state}`);
   const SpecimenTable = ({ specimen }) => {
     return (
       <table>
@@ -22,7 +17,7 @@ const Focus = () => {
           <tr>
             <th>Nickname</th>
             <th>Species</th>
-            <th>Location</th>
+            <th>Most Recent Location</th>
           </tr>
         </thead>
         <tbody>
@@ -39,7 +34,7 @@ const Focus = () => {
     return (
       <>
         <ul>
-          {state.map((specimen) => (
+          {specimenInfo.map((specimen) => (
             <li key={specimen.id}>
               <img alt={specimen.name} src={specimen.url} />
               <SpecimenTable key={specimen.id} specimen={specimen} />
