@@ -2,14 +2,7 @@ import * as React from "react";
 
 import * as apiClient from "./apiClient";
 
-const Sightings = () => {
-  const [sightings, setSightings] = React.useState([]);
-
-  const getSightings = () => apiClient.getSightings().then(setSightings);
-  React.useEffect(() => {
-    getSightings();
-  }, []);
-
+const Sightings = ({ sightings, getSightings }) => {
   const addSighting = (sighting) =>
     apiClient.addSighting(sighting).then(getSightings);
 
@@ -17,6 +10,10 @@ const Sightings = () => {
     console.log(id);
     apiClient.deleteSighting(id).then(getSightings);
   };
+
+  React.useEffect(() => {
+    getSightings();
+  }, []);
 
   const AddSightingForm = ({ addSighting }) => {
     const onSubmit = (event) => {

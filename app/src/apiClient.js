@@ -1,3 +1,6 @@
+// Focus
+export const getJoined = () => _get(`/api/joined`);
+
 // species
 export const getSpecies = () => _get("/api/species");
 

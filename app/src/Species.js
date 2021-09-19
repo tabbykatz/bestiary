@@ -2,12 +2,8 @@ import * as React from "react";
 
 import * as apiClient from "./apiClient";
 
-const Species = () => {
-  const [species, setSpecies] = React.useState([]);
-
-  const getSpecies = () => apiClient.getSpecies().then(setSpecies);
+const Species = ({ species, getSpecies }) => {
   const deleteSpecies = (id) => {
-    console.log(id);
     apiClient.deleteSpecies(id).then(getSpecies);
   };
   React.useEffect(() => {
@@ -54,14 +50,20 @@ const Species = () => {
 
   return (
     <>
-      <ul>
+      <table>
+        <thead>
+          <tr>
+            <th>Common name</th>
+            <th>Scientific name</th>
+          </tr>
+        </thead>
         {species.map(({ species_id, name, scientific_name }) => (
-          <li key={species_id}>
+          <td key={species_id}>
             {name}: {scientific_name}{" "}
             <button onClick={() => deleteSpecies(species_id)}>Delete</button>
-          </li>
+          </td>
         ))}
-      </ul>
+      </table>
       <AddSpeciesForm addSpecies={addSpecies} />
     </>
   );

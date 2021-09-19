@@ -1,5 +1,6 @@
 import express from "express";
 import mime from "mime-types";
+import * as db from "./db.mjs";
 
 import speciesRouter from "./speciesRouter.mjs";
 import specimensRouter from "./specimensRouter.mjs";
@@ -7,6 +8,8 @@ import sightingsRouter from "./sightingsRouter.mjs";
 
 const app = express();
 const port = process.env.PORT || 4000;
+
+app.get("/api/joined", async (req, res) => res.json(await db.getJoined()));
 
 app.use("/api/species", speciesRouter);
 app.use("/api/specimens", specimensRouter);

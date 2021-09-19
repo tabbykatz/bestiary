@@ -2,10 +2,7 @@ import * as React from "react";
 
 import * as apiClient from "./apiClient";
 
-const Specimens = () => {
-  const [specimens, setSpecimens] = React.useState([]);
-
-  const getSpecimens = () => apiClient.getSpecimens().then(setSpecimens);
+const Specimens = ({ specimens, getSpecimens }) => {
   React.useEffect(() => {
     getSpecimens();
   }, []);
@@ -20,11 +17,12 @@ const Specimens = () => {
       const {
         name: { value: name },
         species_id: { value: species_id },
+        url: { value: url },
       } = form.elements;
 
       event.preventDefault();
-      console.log(name, species_id, added);
-      addSpecimen({ name, species_id, added });
+      console.log(name, species_id, added, url);
+      addSpecimen({ name, species_id, added, url });
       form.reset();
     };
 
@@ -38,6 +36,11 @@ const Specimens = () => {
           Species ID
           <input name="species_id" required />
         </label>
+        <label>
+          Image URL
+          <input name="url" type="url" />
+        </label>
+
         <button>Add new specimen</button>
       </form>
     );
