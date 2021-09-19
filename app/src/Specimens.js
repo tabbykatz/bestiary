@@ -2,7 +2,7 @@ import * as React from "react";
 
 import * as apiClient from "./apiClient";
 
-const Specimens = ({ specimens, getSpecimens }) => {
+const Specimens = ({ specimens, getSpecimens, speciesInfo }) => {
   React.useEffect(() => {
     getSpecimens();
   }, []);
@@ -21,7 +21,6 @@ const Specimens = ({ specimens, getSpecimens }) => {
       } = form.elements;
 
       event.preventDefault();
-      console.log(name, species_id, added, url);
       addSpecimen({ name, species_id, added, url });
       form.reset();
     };
@@ -33,14 +32,17 @@ const Specimens = ({ specimens, getSpecimens }) => {
           <input name="name" required />
         </label>
         <label>
-          Species ID
-          <input name="species_id" required />
+          Species?
+          <select name="species_id">
+            {speciesInfo.map((species) => (
+              <option value={species.species_id}>{species.name}</option>
+            ))}
+          </select>
         </label>
         <label>
           Image URL
-          <input name="url" type="url" />
+          <input name="url" type="url" required />
         </label>
-
         <button>Add new specimen</button>
       </form>
     );
@@ -48,13 +50,19 @@ const Specimens = ({ specimens, getSpecimens }) => {
 
   return (
     <>
-      <ul>
-        {specimens.map(({ specimen_id, name, species_id }) => (
-          <li key={specimen_id}>
-            ID: {specimen_id} Nickname: {name} Species: {species_id}
-          </li>
-        ))}
-      </ul>
+      <table>
+        <tbody>
+          {specimens.map(({ specimen_id, name, species_id, added, url }) => (
+            <tr key={specimen_id}>
+              <td>{name}</td>
+              <td>{species_id}</td>
+              <td>{added}</td>
+              <td>{url ? <a href={url}>image</a> : "n/a"}</td>
+              <td>{added}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <AddSpecimenForm addSpecimen={addSpecimen} />
     </>
   );
