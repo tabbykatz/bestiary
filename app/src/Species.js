@@ -51,17 +51,21 @@ const Species = ({ species, getSpecies }) => {
   return (
     <>
       <table>
-        <thead>
-          <tr>
-            <th>Common name</th>
-            <th>Scientific name</th>
+        {species.map(({ species_id, name, scientific_name, code }) => (
+          <tr className="admin" key={species_id}>
+            <td>{species_id}</td>
+            <td>{name}</td>
+            <td>
+              <em>{scientific_name}</em>
+            </td>
+            <td>
+              <em>{code}</em>
+            </td>
+
+            <td>
+              <button onClick={() => deleteSpecies(species_id)}>Delete</button>
+            </td>
           </tr>
-        </thead>
-        {species.map(({ species_id, name, scientific_name }) => (
-          <td key={species_id}>
-            {name}: {scientific_name}{" "}
-            <button onClick={() => deleteSpecies(species_id)}>Delete</button>
-          </td>
         ))}
       </table>
       <AddSpeciesForm addSpecies={addSpecies} />
