@@ -6,7 +6,7 @@ const db = initDb();
 // do some joining because Good Girl
 export const getJoined = async () =>
   await db.any(
-    "SELECT specimens.name AS nickname, specimens.url as url, species.name AS species, sightings.location AS recent_sightings from specimens inner join species on specimens.species_id = species.species_id inner join sightings on sightings.specimen_id = specimens.specimen_id",
+    "SELECT DISTINCT ON (specimens.name) specimens.name AS nickname, specimens.url AS url, species.name AS species, sightings.location AS recent_sightings FROM specimens INNER JOIN species ON specimens.species_id = species.species_id INNER JOIN sightings ON sightings.specimen_id = specimens.specimen_id",
   );
 ///SPECIES
 //get all species
@@ -22,9 +22,9 @@ export const addSpecies = async ({ name, scientific_name, code, added }) =>
     "INSERT INTO species(name, scientific_name, code, added) VALUES($1, $2, $3, $4)",
     [name, scientific_name, code, added],
   );
-// delete species
-export const deleteSpecies = (speciesId) =>
-  db.none("DELETE FROM species WHERE species_id = ${speciesId}", { speciesId });
+// delete species when i understand cascade
+// export const deleteSpecies = (speciesId) =>
+//   db.none("DELETE FROM species WHERE species_id = ${speciesId}", { speciesId });
 
 ///SPECIMENS
 //get all specimens
@@ -39,7 +39,7 @@ export const getSpecimens = async () => await db.any("SELECT * FROM specimens");
 export const addSpecimen = async ({ name, species_id, added, url }) =>
   (
     await db.any(
-      "INSERT INTO specimens(name, species_id, added) VALUES($1, $2, $3, $4)",
+      "INSERT INTO specimens(name, species_id, added, url) VALUES($1, $2, $3, $4)",
       [name, species_id, added, url],
     )
   )[0];
