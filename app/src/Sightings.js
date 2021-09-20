@@ -63,29 +63,38 @@ const Sightings = ({ sightings, getSightings, specimens }) => {
     );
   };
 
+  const possibleSpecimens = {
+    ...specimens.map((specimen) => {
+      const { name, specimen_id } = specimen;
+      return { [name]: specimen_id };
+    }),
+  };
+
   return (
     <>
       <table>
-        {sightings.map(
-          ({
-            sighting_id,
-            time_sighted,
-            specimen_id,
-            healthy,
-            email,
-            location,
-          }) => (
-            <tr key={sighting_id}>
-              <td>{specimen_id}</td>
-              <td>{location}</td>
-              <td>{healthy ? "healthy" : "unhealthy"}</td>
-              <td>{time_sighted}</td>
-              <td>
-                <button onClick={deleteSighting}>Delete</button>
-              </td>
-            </tr>
-          ),
-        )}
+        <tbody>
+          {sightings.map(
+            ({
+              sighting_id,
+              time_sighted,
+              specimen_id,
+              healthy,
+              email,
+              location,
+            }) => (
+              <tr key={sighting_id}>
+                <td>{specimen_id}</td>
+                <td>{location}</td>
+                <td>{healthy ? "healthy" : "unhealthy"}</td>
+                <td>{time_sighted}</td>
+                <td>
+                  <button onClick={deleteSighting}>Delete</button>
+                </td>
+              </tr>
+            ),
+          )}
+        </tbody>
       </table>
       <AddSightingForm addSighting={addSighting} />
     </>

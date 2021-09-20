@@ -35,7 +35,9 @@ const Specimens = ({ specimens, getSpecimens, speciesInfo }) => {
           Species?
           <select name="species_id">
             {speciesInfo.map((species) => (
-              <option value={species.species_id}>{species.name}</option>
+              <option key={species.species_id} value={species.species_id}>
+                {species.name}
+              </option>
             ))}
           </select>
         </label>

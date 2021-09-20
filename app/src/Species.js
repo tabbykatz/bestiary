@@ -51,18 +51,20 @@ const Species = ({ species, getSpecies }) => {
   return (
     <>
       <table>
-        {species.map(({ species_id, name, scientific_name, code }) => (
-          <tr className="admin" key={species_id}>
-            <td>{species_id}</td>
-            <td>{name}</td>
-            <td>
-              <em>{scientific_name}</em>
-            </td>
-            <td>
-              <em>{code}</em>
-            </td>
-          </tr>
-        ))}
+        <tbody>
+          {species.map(({ species_id, name, scientific_name, code }) => (
+            <tr className="admin" key={species_id}>
+              <td>{species_id}</td>
+              <td>{name}</td>
+              <td>
+                <em>{scientific_name}</em>
+              </td>
+              <td>
+                <em>{code}</em>
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
       <AddSpeciesForm addSpecies={addSpecies} />
     </>
